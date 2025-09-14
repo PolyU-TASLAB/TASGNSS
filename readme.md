@@ -18,13 +18,12 @@ After installation, you can import and use the package:
 ```python
 import tasgnss as tas
 
-obs,nav,sta = tas.read_obs('data/20210610/COM38_210610_025603.obs','data/20210610/sta/hksc161d.21*')
+obs,nav,sta = tas.read_obs('data/20210610/test.obs','data/20210610/sta/hksc161d.21*')
 obss = tas.split_obs(obs,False)
 obss = tas.filter_obs(obss,1623296137.0,1623296340.0)
 print("total epochs:",len(obss))
 for o in obss:
     print(f"Epoch: {tas.obs2utc(o.data[0].time)}")
-    # WLS 解算（保持原有功能）
     sol_wls = tas.wls_pnt_pos(o,nav)
     print(sol_wls)
 ```
