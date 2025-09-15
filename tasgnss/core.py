@@ -1147,8 +1147,8 @@ def preprocess_obs(o, nav, use_cache=True):
             return [[None] * 7][0]
     # intialize with pntpos can help fix some position-related parameters, such as sagnac, ionosphere, troposphere, or it need a iteration to solve it.
     sol, status, msg = get_obs_pnt(o,nav)
-    if not status:
-        return [[None] * 7][0]
+    # if not status:
+    #     return [[None] * 7][0]
     p = np.array([sol.rr[0],sol.rr[1],sol.rr[2]])
     time = o.data[0].time
     satpos,sdt,var,mask = get_sat_pos(o.data,o.n,nav)
@@ -1519,6 +1519,19 @@ def wls_pnt_pos(o, nav, use_cache=True, return_residual=False, enable_torch=Fals
         p, p_t, v, v_t, data, cdata, raw_data = cache_data[o_id]
     else:
         p, p_t, v, v_t, data, cdata, raw_data = preprocess_obs(o, nav, use_cache)
+    
+    # test cdata['sys'], check the number of systems and the number of unknowns
+    if np.unique(cdata['sys']).shape[0] + 3 > cdata['pr'].shape[0]:
+        return {
+            "status": False,
+            "pos": np.zeros(4),
+            "msg": "insufficient satellites for the number of systems",
+            "data": {},
+            "solve_data": cdata,
+            "raw_data": raw_data
+        }
+
+    
     iter = 0
 
     backend = Backend(enable_torch)
