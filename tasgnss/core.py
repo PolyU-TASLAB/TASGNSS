@@ -63,7 +63,7 @@ class Backend:
 
     def linalg_lstsq(self, A, B, rcond=None):
         if self.use_torch and self.torch is not None:
-            return self.torch.linalg.lstsq(A, B, rcond=rcond)
+            return [self.torch.pinv(A) @ B]
         else:
             return self.np.linalg.lstsq(A, B, rcond=rcond)
 
