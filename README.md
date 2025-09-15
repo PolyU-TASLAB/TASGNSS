@@ -4,7 +4,12 @@ A Python package for GNSS positioning and processing by [Trustworthy AI and Auto
 
 ## Installation
 
-Install the package using pip:
+Install the package using pip online:
+
+```bash
+pip install tasgnss
+```
+or install by github clone:
 
 ```bash
 git clone https://github.com/PolyU-TASLAB/TASGNSS.git
@@ -26,6 +31,11 @@ for o in obss:
     print(f"Epoch: {tas.obs2utc(o.data[0].time)}")
     sol_wls = tas.wls_pnt_pos(o,nav)
     print(sol_wls)
+```
+
+You can try to run the example:
+```bash
+cd example && python3 example.py
 ```
 
 ## ROS Wrapper Usage

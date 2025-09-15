@@ -1,14 +1,17 @@
 from setuptools import setup, find_packages
+import pathlib
+from pathlib import Path
 
+this_directory = Path(__file__).parent
 setup(
     name="tasgnss",
     version="0.1.0",
     author="Runzhi Hu",
     author_email="run-zhi.hu@connect.polyu.hk",
-    description="A Python package for GNSS positioning and processing",
-    long_description=open("readme.md", encoding="utf-8").read(),
+    description="A Python package for GNSS positioning and processing by TASLAB",
+    long_description=open(this_directory/"readme.md", encoding="utf-8").read(),
     long_description_content_type="text/markdown",
-    url="https://github.com/yourusername/tasgnss",  # Update with actual URL if available
+    url="https://github.com/PolyU-TASLAB/TASGNSS", 
     packages=find_packages(),
     install_requires=[
         "pyrtklib",
