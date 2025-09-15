@@ -1,6 +1,6 @@
 # TAS-GNSS Python Package
 
-A Python package for GNSS positioning and processing.
+A Python package for GNSS positioning and processing by [Trustworthy AI and Autonomous Systems (TAS) Laboratory](https://polyu-taslab.github.io/), The Hong Kong Polytechnic Univerisity.
 
 ## Installation
 
