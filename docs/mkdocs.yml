@@ -1,0 +1,21 @@
+site_name: TASGNSS Documentation
+theme:
+  name: material
+  features: math
+nav:
+  - Home: index.md
+  - API: api.md
+  - Appendix: appendix.md
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [../]  # 指向项目根目录以找到 tasgnsslib.py
+markdown_extensions:
+  - pymdownx.arithmatex:
+      generic: true
+
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
