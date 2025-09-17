@@ -1,0 +1,684 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../api/">
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.20">
+    
+    
+      
+        <title>Appendix - TASGNSS Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.e53b48f4.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#appendix" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="TASGNSS Documentation" class="md-header__button md-logo" aria-label="TASGNSS Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            TASGNSS Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Appendix
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="TASGNSS Documentation" class="md-nav__button md-logo" aria-label="TASGNSS Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    TASGNSS Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    API
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Appendix
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Appendix
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#basic-ideal-gnss-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic ideal GNSS model
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#basic-weighted-least-squares-solution" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic weighted least squares solution
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Basic weighted least squares solution">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#wls-solution-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      WLS Solution Process
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#corrections-required-in-practical-gnss-applications" class="md-nav__link">
+    <span class="md-ellipsis">
+      Corrections Required in Practical GNSS Applications
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example Usage
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dilution-of-precision-dop" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dilution of Precision (DOP)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Dilution of Precision (DOP)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dop-calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      DOP Calculation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-wls_pnt_pos-for-dop-calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using wls_pnt_pos for DOP Calculation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#basic-ideal-gnss-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic ideal GNSS model
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#basic-weighted-least-squares-solution" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic weighted least squares solution
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Basic weighted least squares solution">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#wls-solution-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      WLS Solution Process
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#corrections-required-in-practical-gnss-applications" class="md-nav__link">
+    <span class="md-ellipsis">
+      Corrections Required in Practical GNSS Applications
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example Usage
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dilution-of-precision-dop" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dilution of Precision (DOP)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Dilution of Precision (DOP)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dop-calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      DOP Calculation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-wls_pnt_pos-for-dop-calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using wls_pnt_pos for DOP Calculation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="appendix">Appendix</h1>
+<p>This is not an academic material, and the objective of this README is just to briefly introduce the GNSS principles to beginners, and the most important, to let beginners quickly run up the GNSS positioning.</p>
+<h2 id="basic-ideal-gnss-model">Basic ideal GNSS model</h2>
+<div class="arithmatex">\[ P = r + C(\delta{t_r}-\delta{t^s}) + I + T + \epsilon \]</div>
+<div class="arithmatex">\[ r = \sqrt{{(x^s-x_r)}^2+{(y^s-y_r)}^2+{(z^s-z_r)}^2}+sagnac \]</div>
+<p>where <span class="arithmatex">\(r\)</span> is the geomitric distance between the satellite and the receiver, <span class="arithmatex">\(x^s,y^s,z^s\)</span> are the satellite's coordinates in ECEF and <span class="arithmatex">\(x_r,y_r,z_r\)</span> are the receiver's coordinates in ECEF. <span class="arithmatex">\(P\)</span> is the pseudorange and <span class="arithmatex">\(C\)</span> is the speed of light. <span class="arithmatex">\(\delta{t_r}\)</span> and <span class="arithmatex">\(\delta{t^s}\)</span> represent the receiver clock bias and satellite clock bias, respectively. <span class="arithmatex">\(I\)</span> is the ionospheric delay and <span class="arithmatex">\(T\)</span> is the troposiphere deley. <span class="arithmatex">\(\epsilon\)</span> denotes the gaussian white noise.</p>
+<h2 id="basic-weighted-least-squares-solution">Basic weighted least squares solution</h2>
+<p>A typical GNSS positioning process is to solve the receiver's position - the <span class="arithmatex">\(x_r,y_r,z_r\)</span> in equation (1). We assume we only need to solve the four unknowns, including <span class="arithmatex">\(x_r,y_r,z_r\)</span> and <span class="arithmatex">\(\delta{t_r}\)</span>. (If you are doing PPP, then other paramerters are also need to be estimated, here is just a brief introduction to GNSS single point positioning.). The observation function is defined below:</p>
+<div class="arithmatex">\[ \hat{P}_i = h_i(x,y,z,\delta{t})  \]</div>
+<p>Here, <span class="arithmatex">\(i\)</span> denotes the <span class="arithmatex">\(i_{th}\)</span> satellite. This means the number of the observation functions is equal to the number of satellites and the measurements.</p>
+<h3 id="wls-solution-process">WLS Solution Process</h3>
+<p>Linearize the observation equation at the current state estimate <span class="arithmatex">\(\mathbf{x}_0 = [x_r, y_r, z_r, \delta{t_r}]^T\)</span>:</p>
+<div class="arithmatex">\[ P_i = h_i(\mathbf{x}_0) + \frac{\partial h_i}{\partial \mathbf{x}}\bigg|_{\mathbf{x}_0} \Delta\mathbf{x} + \epsilon_i \]</div>
+<p>Expressed in matrix form, where <span class="arithmatex">\(\mathbf{P}\)</span> is the vector of residuals <span class="arithmatex">\(P_i - h_i(\mathbf{x}_0)\)</span>:</p>
+<div class="arithmatex">\[ \mathbf{P} = \mathbf{H} \Delta\mathbf{x} + \mathbf{\epsilon} \]</div>
+<p>where <span class="arithmatex">\(\mathbf{H}\)</span> is the design matrix (Jacobian matrix), and <span class="arithmatex">\(\Delta\mathbf{x}\)</span> is the state increment. The weighted least squares solution is:</p>
+<div class="arithmatex">\[ \Delta\mathbf{x} = (\mathbf{H}^T \mathbf{W} \mathbf{H})^{-1} \mathbf{H}^T \mathbf{W} \mathbf{P} \]</div>
+<p>where <span class="arithmatex">\(\mathbf{W}\)</span> is the weight matrix, typically the inverse of the observation variance. In practice, the code uses <code>backend.linalg_lstsq</code> to directly solve <span class="arithmatex">\(\mathbf{W}\mathbf{H} \Delta\mathbf{x} = \mathbf{W}\mathbf{P}\)</span>, avoiding explicit matrix inversion.</p>
+<p>After solving for <span class="arithmatex">\(\Delta\mathbf{x}\)</span>, the state vector is updated as: <span class="arithmatex">\(\mathbf{x} = \mathbf{x}_0 + \Delta\mathbf{x}\)</span>. This process is iterated until convergence <span class="arithmatex">\(||\Delta{x}&lt;10^{-4}||\)</span>.</p>
+<h3 id="corrections-required-in-practical-gnss-applications">Corrections Required in Practical GNSS Applications</h3>
+<p>In practical GNSS positioning, besides the basic geometric distance and clock bias, the following corrections need to be considered:</p>
+<ol>
+<li><strong>Ionospheric Delay (I)</strong>: Delay caused by signal propagation through the ionosphere, inversely proportional to the square of the frequency. Obtained from <code>get_atmosphere_delay</code> in preprocessing.</li>
+<li><strong>Tropospheric Delay (T)</strong>: Delay caused by signal propagation through the troposphere, related to elevation angle and meteorological conditions. Obtained from <code>get_atmosphere_delay</code> in preprocessing.</li>
+<li><strong>Satellite Clock Bias (<span class="arithmatex">\(\delta{t^s}\)</span>)</strong>: Deviation of the satellite atomic clock from system time, provided by navigation messages. Obtained from <code>get_sat_pos</code>.</li>
+<li><strong>Relativistic Effects</strong>: Includes relativistic frequency shift of satellite clocks and Sagnac effect during signal propagation. Corrected in RTKLIB's <code>satpos</code> function; the satellite positions obtained are already corrected.</li>
+<li><strong>Earth Rotation Correction</strong>: Coordinate system changes due to Earth's rotation during signal propagation, corrected by Sagnac effect using <code>get_sagnac_corr</code>.</li>
+</ol>
+<p>In the code implementation, these corrections are already accounted for in <code>pseudorange_observe_func</code> and <code>doppler_observe_func</code>.</p>
+<h3 id="example-usage">Example Usage</h3>
+<p>Here's an example of how to use the preprocessing and observation functions to obtain corrected observations:</p>
+<pre><code class="language-python"># Step 1: Preprocess observations to obtain corrections
+from tasgnss import preprocess_obs, pseudorange_observe_func, doppler_observe_func
+
+# Assuming 'o' is your observation data and 'nav' is navigation data
+p, p_t, v, v_t, data, cdata, raw_data = preprocess_obs(o, nav, use_cache=True)
+
+# The 'cdata' dictionary contains all necessary corrections:
+# - cdata['satpos'][:,:3]: Satellite positions (already corrected for relativistic effects)
+# - cdata['sdt'][:,0]: Satellite clock biases (from get_sat_pos)
+# - cdata['I']: Ionospheric delays (from get_atmosphere_delay)
+# - cdata['T']: Tropospheric delays (from get_atmosphere_delay)
+# - cdata['sagnac']: Sagnac correction (Earth rotation correction)
+
+# Step 2: Use observation functions to compute estimated pseudoranges and Doppler
+# Initialize receiver position and clock bias
+import numpy as np
+pos = np.array([x0, y0, z0])  # Initial position estimate
+clock_bias = np.zeros(len(SYS_NAME))  # Clock bias for each GNSS system
+
+# Create system mask for clock bias
+from tasgnss import SYS_NAME
+p_t_mask = np.eye(len(SYS_NAME))[np.array([list(SYS_NAME).index(s) for s in cdata['sys']])]
+
+# Compute estimated pseudoranges
+estimated_psr, H_psr = pseudorange_observe_func(
+    pos,
+    np.dot(p_t_mask, clock_bias),
+    cdata['satpos'][:,:3],
+    cdata[&quot;sdt&quot;][:,0],
+    cdata['I'],
+    cdata['T'],
+    cdata['sagnac'],
+    cdata['sys']
+)
+
+# Compute estimated Doppler
+estimated_dop, H_dop = doppler_observe_func(
+    v,  # Velocity estimate
+    v_t,  # Clock drift estimate
+    pos,
+    cdata['satpos'][:,:3],
+    cdata['satpos'][:,3:],
+    cdata[&quot;sdt&quot;][:,1],
+    cdata['sys']
+)
+
+# The residuals can be computed as:
+residual_psr = cdata['pr'] - estimated_psr
+residual_dop = cdata['dop'] - estimated_dop
+</code></pre>
+<p>This example shows how the various corrections are obtained through preprocessing and then applied in the observation functions to compute estimated observations.</p>
+<h2 id="dilution-of-precision-dop">Dilution of Precision (DOP)</h2>
+<p>Dilution of Precision (DOP) is a measure of how satellite geometry affects positioning accuracy. Poor satellite geometry (e.g., all satellites clustered in one part of the sky) results in higher DOP values and lower positioning accuracy, while good satellite geometry (e.g., satellites well-distributed across the sky) results in lower DOP values and higher positioning accuracy.</p>
+<p>The most common DOP metrics are:
+- <strong>GDOP</strong> (Geometric DOP): Overall effect on 3D position and time
+- <strong>PDOP</strong> (Position DOP): Effect on 3D position (x, y, z)
+- <strong>HDOP</strong> (Horizontal DOP): Effect on horizontal position (x, y)
+- <strong>VDOP</strong> (Vertical DOP): Effect on vertical position (z)
+- <strong>TDOP</strong> (Time DOP): Effect on time solution</p>
+<h3 id="dop-calculation">DOP Calculation</h3>
+<p>DOP values can be calculated from the covariance matrix of the estimated parameters. The covariance matrix is computed as:</p>
+<div class="arithmatex">\[ \mathbf{C} = (\mathbf{H}^T \mathbf{W} \mathbf{H})^{-1} \]</div>
+<p>where <span class="arithmatex">\(\mathbf{H}\)</span> is the design matrix (Jacobian) and <span class="arithmatex">\(\mathbf{W}\)</span> is the weight matrix.</p>
+<p>The DOP values are then calculated as:</p>
+<ul>
+<li>GDOP = <span class="arithmatex">\(\sqrt{C_{11} + C_{22} + C_{33} + C_{44}}\)</span></li>
+<li>PDOP = <span class="arithmatex">\(\sqrt{C_{11} + C_{22} + C_{33}}\)</span></li>
+<li>HDOP = <span class="arithmatex">\(\sqrt{C_{11} + C_{22}}\)</span></li>
+<li>VDOP = <span class="arithmatex">\(\sqrt{C_{33}}\)</span></li>
+<li>TDOP = <span class="arithmatex">\(\sqrt{C_{44}}\)</span></li>
+</ul>
+<h3 id="using-wls_pnt_pos-for-dop-calculation">Using wls_pnt_pos for DOP Calculation</h3>
+<p>The <code>wls_pnt_pos</code> function can be used to calculate DOP by setting <code>return_residual=True</code>. This returns the design matrix <span class="arithmatex">\(\mathbf{H}\)</span> and weight matrix <span class="arithmatex">\(\mathbf{W}\)</span> in the <code>residual_info</code> dictionary, which can then be used to compute the covariance matrix and DOP values:</p>
+<pre><code class="language-python">result = wls_pnt_pos(o, nav, return_residual=True)
+if result[&quot;status&quot;]:
+    H = result[&quot;residual_info&quot;][&quot;H&quot;]
+    W = result[&quot;residual_info&quot;][&quot;W&quot;]
+    # Compute covariance matrix
+    C = np.linalg.inv(H.T @ W @ H)
+    # Extract DOP values
+    GDOP = np.sqrt(C[0,0] + C[1,1] + C[2,2] + C[3,3])
+    PDOP = np.sqrt(C[0,0] + C[1,1] + C[2,2])
+    HDOP = np.sqrt(C[0,0] + C[1,1])
+    VDOP = np.sqrt(C[2,2])
+    TDOP = np.sqrt(C[3,3])
+</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": "math", "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+        <script src="../javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
