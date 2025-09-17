@@ -11,7 +11,7 @@ plugins:
   - mkdocstrings:
       handlers:
         python:
-          paths: [../]  # 指向项目根目录以找到 tasgnsslib.py
+          paths: [../] 
 markdown_extensions:
   - pymdownx.arithmatex:
       generic: true
