@@ -5,7 +5,7 @@ from pathlib import Path
 this_directory = Path(__file__).parent
 setup(
     name="tasgnss",
-    version="0.1.1",
+    version="0.1.2",
     author="Runzhi Hu",
     author_email="run-zhi.hu@connect.polyu.hk",
     description="A Python package for GNSS positioning and processing by TASLAB",

@@ -3,8 +3,8 @@ import numpy as np
 import pymap3d as p3d
 
 
-SYS = {'G':prl.SYS_GPS,'C':prl.SYS_CMP,'E':prl.SYS_GAL,'R':prl.SYS_GLO,'J':prl.SYS_QZS}
-SYS_NAME = ('G','C','E','R','J')
+SYS = {'G':prl.SYS_GPS,'C':prl.SYS_CMP,'E':prl.SYS_GAL,'R':prl.SYS_GLO,'J':prl.SYS_QZS,'I':prl.SYS_IRN,'1':prl.SYS_SBS}
+SYS_NAME = ('G','C','E','R','J','I','1')
 
 cache_data = {}
 
@@ -340,11 +340,13 @@ def get_list_sat_name(sats, SYS_ONLY = False):
     for sat in sats:
         sys_name = get_sat_name(sat)
         if sys_name[0] not in SYS_NAME:
-            continue
-        if SYS_ONLY:
-            names.append(SYS[sys_name[0]])
+            sys = 'X'
         else:
-            names.append((sat, SYS[sys_name[0]]))
+            sys = sys_name[0]
+        if SYS_ONLY:
+            names.append(sys)
+        else:
+            names.append((sat, sys))
     return names
 
 def obs2utc(obstime, leap_sec=18):
@@ -543,7 +545,7 @@ def covecef(pos, Q):
 
 # GNSS preprocessing and positioning functions
 
-def read_obs(rcv, eph, ref=None):
+def read_obs(rcv, eph, opt = "", ref=None):
     """
     Reads GNSS observation and ephemeris data from RINEX files using RTKLIB’s internal structures.
 
@@ -556,6 +558,10 @@ def read_obs(rcv, eph, ref=None):
         Path(s) to RINEX navigation/ephemeris file(s).
         These files are read as ephemeris data (type 2 in RTKLIB).
 
+    opt (str, optional):
+        Options string passed to RTKLIB’s readrnx function for customized reading behavior.
+        Default is "-SYS=GCREJI" to include GPS, GLONASS, Galileo, BeiDou, QZSS, and IRNSS systems.
+        
     ref (str or list of str, optional):
         Path(s) to RINEX observation file(s) from a reference station, used for Real-Time Kinematic (RTK) processing.
         If provided, these are also read as type 2 (ephemeris-type) data for reference station handling.
@@ -570,20 +576,20 @@ def read_obs(rcv, eph, ref=None):
     sta = prl.sta_t()
     if type(rcv) is list:
         for r in rcv:
-            prl.readrnx(r,1,"",obs,nav,sta)
+            prl.readrnx(r,1,opt,obs,nav,sta)
     else:
-        prl.readrnx(rcv,1,"",obs,nav,sta)
+        prl.readrnx(rcv,1,opt,obs,nav,sta)
     if type(eph) is list:
         for f in eph:
-            prl.readrnx(f,2,"",obs,nav,sta)
+            prl.readrnx(f,2,opt,obs,nav,sta)
     else:
-        prl.readrnx(eph,2,"",obs,nav,sta)
+        prl.readrnx(eph,2,opt,obs,nav,sta)
     if ref:
         if type(ref) is list:
             for r in ref:
-                prl.readrnx(r,2,"",obs,nav,sta)
+                prl.readrnx(r,2,opt,obs,nav,sta)
         else:
-            prl.readrnx(ref,2,"",obs,nav,sta)
+            prl.readrnx(ref,2,opt,obs,nav,sta)
     return obs,nav,sta
 
 
