@@ -9,7 +9,7 @@ setup(
     author="Runzhi Hu",
     author_email="run-zhi.hu@connect.polyu.hk",
     description="A Python package for GNSS positioning and processing by TASLAB",
-    long_description=open(this_directory/"readme.md", encoding="utf-8").read(),
+    long_description=open(this_directory/"README.md", encoding="utf-8").read(),
     long_description_content_type="text/markdown",
     url="https://github.com/PolyU-TASLAB/TASGNSS", 
     packages=find_packages(),
