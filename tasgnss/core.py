@@ -1,4 +1,9 @@
-import pyrtklib as prl
+import os
+rtklib_version = os.getenv("rtklib", "origin").lower()
+if rtklib_version == "demo5":
+    import pyrtklib5 as prl
+else:
+    import pyrtklib as prl
 import numpy as np
 import pymap3d as p3d
 
