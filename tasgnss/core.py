@@ -1169,6 +1169,7 @@ def preprocess_obs(o, nav, use_cache=True):
     o.n = len(mask)
     o.nmax = o.n
     data = []
+    raw_datas = []
     sagnac = get_sagnac_corr(satpos[:,:3], p)
     iono_error, trop_error, var_els, var_ions, var_tropos = get_atmosphere_error(time,satpos[:,:3], [o.data[i].sat for i in range(o.n)], nav, p)
     satpos_enu = ecef_to_enu_direct(satpos[:,:3],p)
@@ -1183,7 +1184,7 @@ def preprocess_obs(o, nav, use_cache=True):
         raw_data['SNR'] = np.array(obsd.SNR[0:3])/1000
         raw_data['LLI'] = np.array(obsd.LLI[0:3])
         raw_data['code'] = np.array(obsd.code[0:3])
-        
+
         sname = get_sat_name(obsd.sat)
         s_sys = sname[0]
 
@@ -1213,6 +1214,7 @@ def preprocess_obs(o, nav, use_cache=True):
                 freq
             )
         )
+        raw_datas.append(raw_data)
     data = np.array(data,dtype=object)
     cdata = {
         'satpos': np.array(data[:,3].tolist()).astype(np.float64),
@@ -1227,7 +1229,7 @@ def preprocess_obs(o, nav, use_cache=True):
     }
     p = None
     p_t = None
-    ret_data = [None,None,None,None,data,cdata,raw_data]
+    ret_data = [None,None,None,None,data,cdata,raw_datas]
     # if it's initialization, do not store the position and receiver clock bias
     if use_cache:
         cache_data[o_id] = ret_data
