@@ -4,6 +4,11 @@ A Python package for GNSS positioning and processing by [Trustworthy AI and Auto
 
 
 ## News
+
+### 2025.11.07
+* Fix a ciritical bug in solver (torch.pinv(A)->torch.linalg.pinv(A))
+* Add "irls_pnt_pos" which can support robust estimation
+
 ### 2025.10.02
 We now support switching between RTKLIB backends. Set the environment variable rtklib to "demo5" to use pyrtklib5 (based on [rtklib_demo5 2.5.0 EX](https://github.com/rtklibexplorer/RTKLIB)). If unset or set to any other value, the library will default to the original pyrtklib, which is built on RTKLIB 2.4.3.
 This update enables users to choose the backend that best fits their application — whether for compatibility or to leverage new features in the demo5 branch.
