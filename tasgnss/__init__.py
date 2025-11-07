@@ -34,4 +34,6 @@ __all__ = [
     "preprocess_obs",
     "wls_pnt_pos",
     "ekf_pnt_pos",
+    "huber_kernel_factory",
+    "irls_pnt_pos"
 ]

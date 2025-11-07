@@ -68,7 +68,7 @@ class Backend:
 
     def linalg_lstsq(self, A, B, rcond=None):
         if self.use_torch and self.torch is not None:
-            return [self.torch.pinv(A) @ B]
+            return [self.torch.linalg.pinv(A) @ B]
         else:
             return self.np.linalg.lstsq(A, B, rcond=rcond)
 
@@ -155,6 +155,18 @@ class Backend:
             return self.torch.matmul(a, b)
         else:
             return self.np.dot(a, b)
+
+    def abs(self, x):
+        if self.use_torch and self.torch is not None:
+            return self.torch.abs(x)
+        else:
+            return self.np.abs(x)
+
+    def ones_like(self, x, dtype=None):
+        if self.use_torch and self.torch is not None:
+            return self.torch.ones_like(x, dtype=dtype)
+        else:
+            return self.np.ones_like(x, dtype=dtype)
 
     def transpose(self, x):
         if self.use_torch and self.torch is not None:
@@ -1679,3 +1691,253 @@ def wls_pnt_pos(o, nav, use_cache=True, return_residual=False, enable_torch=Fals
         "raw_data": raw_data,
         "residual_info": residual_info
     }
+
+
+def irls_pnt_pos(o, nav, use_cache=True, return_residual=False, enable_torch=False, 
+                 robust_kernel=None, b=None, device='cpu'):
+    """
+    Performs Iterative Reweighted Least Squares (IRLS) positioning using GNSS observations with robust estimation.
+
+    This function implements an iterative IRLS algorithm with robust kernel function to solve for receiver position, 
+    velocity, and clock parameters. It supports caching for performance optimization and PyTorch backend
+    for gradient-based optimization.
+
+    Key Features:
+    - Uses robust kernel function for outlier rejection
+    - Uses caching to accelerate repeated calls with the same observation data
+    - Supports PyTorch backend for gradient propagation, enabling use in neural network optimization
+    - Handles multiple GNSS constellations with separate clock bias parameters
+    - Includes atmospheric and relativistic corrections
+
+    Parameters:
+    o (obs_t): 
+        GNSS observation data structure for one epoch.
+    nav (nav_t): 
+        Navigation data structure with ephemerides and satellite biases.
+    use_cache (bool, optional): 
+        Whether to use cached preprocessing results. When True, if the same
+        observation object is processed multiple times, the preprocessing results (satellite positions,
+        atmospheric corrections, etc.) are cached and reused, significantly speeding up repeated calls.
+        Default is True.
+    return_residual (bool, optional): 
+        Whether to return residuals, Jacobian matrix, and weight matrix.
+        When True, the returned dictionary includes a "residual_info" key containing:
+        - "residual": Observation residuals vector
+        - "H": Design matrix (Jacobian)
+        - "W": Weight matrix
+        These can be used to compute Dilution of Precision (DOP) metrics. Default is False.
+    enable_torch (bool, optional): 
+        Whether to use PyTorch backend for computations. When True,
+        the function uses PyTorch tensors and operations, allowing gradients to flow through the
+        computation graph. This enables the use of this function in neural network training, where
+        weights (w) and bias (b) can be optimized using gradient descent. Default is False.
+    robust_kernel (callable, optional): 
+        Robust kernel function that takes residuals as input and returns weights.
+        Function signature: weights = kernel(residuals)
+        If None, uses standard least squares without robust weighting. Default is None.
+    b (array-like, optional): Bias vector to be subtracted from pseudorange observations. If
+        enable_torch=True, gradients will propagate through b to the position solution, allowing
+        b to be optimized in neural networks. Default is None (zero vector).
+    device (str, optional): Device to run PyTorch computations on ('cpu' or 'cuda'). Default is 'cpu'.
+    
+    Returns:
+    dict: A dictionary containing positioning results, status, and additional information with keys:
+        - "status" (bool): True if positioning succeeded, False otherwise
+        - "pos" (array): Receiver position [x, y, z] in ECEF coordinates
+        - "cb" (array): Receiver clock bias for each GNSS system
+        - "cd" (array): Receiver clock drift
+        - "msg" (str): Status message
+        - "data" (array): Processed observation data
+        - "solve_data" (dict): Preprocessed data used in solving
+        - "raw_data" (dict): Raw observation data
+        - "residual_info" (dict, optional): Residuals and Jacobian matrix if return_residual=True
+    """
+    maxiter = 100
+    o_id = id(o)
+    if use_cache and o_id in cache_data:
+        p, p_t, v, v_t, data, cdata, raw_data = cache_data[o_id]
+    else:
+        p, p_t, v, v_t, data, cdata, raw_data = preprocess_obs(o, nav, use_cache)
+    
+    # test cdata['sys'], check the number of systems and the number of unknowns
+    if np.unique(cdata['sys']).shape[0] + 3 > cdata['pr'].shape[0]:
+        return {
+            "status": False,
+            "pos": np.zeros(4),
+            "msg": "insufficient satellites for the number of systems",
+            "data": {},
+            "solve_data": cdata,
+            "raw_data": raw_data
+        }
+
+    
+    iter = 0
+
+    backend = Backend(enable_torch)
+
+    def ensure_array(x, shape, dtype=backend.float64):
+        if x is None:
+            return backend.zeros(shape, dtype=dtype)
+        return backend.asarray(x, dtype=dtype).reshape(shape)
+    
+    # initalize variables
+    p = ensure_array(p, (3,))
+    p_t = ensure_array(p_t, (len(SYS_NAME),))
+
+
+    # ensure all variables are on the correct device
+    p = backend.to(p, device)
+    p_t = backend.to(p_t, device)
+
+    dp = backend.asarray(np.array(100.0), dtype=backend.float64)
+    dp = backend.to(dp, device)
+
+    # construct p_t_mask
+    idx = backend.array([list(SYS_NAME).index(s) for s in data[:,2]], dtype=backend.int64)  # 索引用 int64
+    eye_matrix = backend.eye(len(SYS_NAME), dtype=backend.float64)
+    p_t_mask = eye_matrix[idx] 
+    p_t_mask = backend.to(p_t_mask, device)
+
+    # process b
+    if b is None:
+        b = backend.zeros_like(backend.asarray(cdata['pr']), dtype=backend.float64)
+    else:
+        b = backend.asarray(b, dtype=backend.float64).reshape(-1,1)
+    b = backend.to(b, device)
+
+    # Initialize base weight matrix using observation variance
+    var = backend.asarray(cdata['var'], dtype=backend.float64)
+    W_base = backend.diag(1.0 / var)
+
+    # ensure cdata pr and dop are tensors on the correct device
+    pr_tensor = backend.asarray(cdata['pr'], dtype=backend.float64)
+    pr_tensor = backend.to(pr_tensor, device)
+
+    try:
+        while iter < maxiter and backend.linalg_norm(dp) > 0.001:
+            psr, H = pseudorange_observe_func(
+                p, backend.dot(p_t_mask, p_t), cdata['satpos'][:,:3], cdata["sdt"][:,0],
+                cdata['I'], cdata['T'], cdata['sagnac'], cdata['sys'], enable_torch=enable_torch,
+                device=device
+            )
+
+            p_residual = pr_tensor - psr - b
+            residual = p_residual
+
+            # Apply robust kernel function if provided
+            if robust_kernel is not None:
+                # Compute robust weights from residuals
+                robust_weights = robust_kernel(p_residual)
+                # Combine with base weights
+                W = backend.diag(robust_weights)
+            else:
+                W = W_base
+
+            # solve least squares
+            W_H = backend.dot(W, H)
+            W_r = backend.dot(W, residual)
+            result = backend.linalg_lstsq(W_H, W_r, rcond=None)
+            dp = result.solution if hasattr(result, 'solution') else result[0]
+
+            # update
+            p = p + backend.squeeze(dp[:3])
+            p_t = p_t + backend.squeeze(dp[3:])
+            iter += 1
+
+    except Exception as e:
+        zero_pos = backend.zeros(4, dtype=backend.float64)
+        zero_pos = backend.to(zero_pos, device)
+        return {
+            "status": False,
+            "pos": zero_pos,
+            "msg": str(e),
+            "data": {},
+            "solve_data": cdata,
+            "raw_data": raw_data
+        }
+
+    if iter > maxiter or backend.linalg_norm(dp) > 1e-2:
+        zero_pos = backend.zeros(4, dtype=backend.float64)
+        zero_pos = backend.to(zero_pos, device)
+        return {
+            "status": False,
+            "pos": zero_pos,
+            "msg": "not converge",
+            "data": {},
+            "solve_data": cdata,
+            "raw_data": raw_data
+        }
+
+    # store to cache
+    cache_data[o_id][0] = backend.to_numpy(p)
+    cache_data[o_id][1] = backend.to_numpy(p_t)
+
+
+    # optional: return residuals and H
+    if return_residual:
+        psr, H = pseudorange_observe_func(
+            p, backend.dot(p_t_mask, p_t), cdata['satpos'][:,:3], cdata["sdt"][:,0],
+            cdata['I'], cdata['T'], cdata['sagnac'], cdata['sys'], enable_torch=enable_torch
+        )
+
+        pr_tensor = backend.asarray(cdata['pr'], dtype=backend.float64)
+        pr_tensor = backend.to(pr_tensor, device)
+
+        residual = pr_tensor - psr - b
+        residual_info = {
+            "residual": residual,
+            "H": H,
+            "W": W
+        }
+    else:
+        residual_info = {}
+
+    return {
+        "status": True,
+        "pos": p,
+        "cb": p_t,
+        "msg": "ok",
+        "data": data,
+        "solve_data": cdata,
+        "raw_data": raw_data,
+        "residual_info": residual_info
+    }
+
+
+def huber_kernel_factory(k=1.345, scale=1.0, enable_torch=False):
+    """
+    Factory function to create a Huber robust kernel function with configurable parameters.
+    
+    The Huber kernel downweights large residuals to provide robustness against outliers.
+    
+    Parameters:
+    k (float): Tuning constant that determines the transition point between quadratic and linear behavior.
+               Typical values range from 1.0 to 2.0. Default is 1.345 (commonly used value).
+    scale (float): Scale factor for the residuals. Can be used to normalize the residuals.
+                   Default is 1.0.
+    
+    Returns:
+    callable: A Huber kernel function that takes residuals as input and returns weights.
+    """
+    def huber_kernel(residuals, enable_torch=enable_torch):
+        """
+        Huber robust kernel function.
+        
+        Parameters:
+        residuals (array-like): Input residuals
+        
+        Returns:
+        array-like: Weights for each residual
+        """
+        backend = Backend(enable_torch)
+        residuals = backend.asarray(residuals)
+        scaled_residuals = backend.abs(residuals) / scale
+        
+        # Huber weighting function: w(r) = 1 if |r| <= k, else k/|r|
+        weights = backend.where(scaled_residuals <= k, 
+                               backend.ones_like(scaled_residuals),
+                               k / (scaled_residuals+1e-12))
+        
+        return weights.squeeze()
+    
+    return huber_kernel
